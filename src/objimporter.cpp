@@ -1,17 +1,17 @@
-#include "objparser.h"
+#include "objimporter.h"
 #include <stdio.h>
 #include <string>
 
 namespace ObjView
 {
 
-std::shared_ptr<Mesh> ObjParser::loadObj(const char* path)
+std::shared_ptr<Mesh> ObjImporter::import(const char* filepath)
 {
-	std::ifstream obj_file(path);
+	std::ifstream obj_file(filepath);
 
 	if (!obj_file.is_open())
 	{
-		fprintf(stderr, "Error: Unable to open file %s\n", path);
+		fprintf(stderr, "Error: Unable to open file %s\n", filepath);
 		return nullptr;
 	}
 
@@ -22,14 +22,19 @@ std::shared_ptr<Mesh> ObjParser::loadObj(const char* path)
 
 	if (!success)
 	{
-		fprintf(stderr, "Error: Failed to parse file \"%s\"\n", path);
+		fprintf(stderr, "Error: Failed to parse file \"%s\"\n", filepath);
 		return nullptr;
 	}
 	
 	return mesh;
 }
 
-bool ObjParser::parseFile(std::ifstream& file, Mesh* mesh)
+std::vector<const char*> ObjImporter::getSupportedFileExtensions() const
+{
+	return std::vector<const char*>{ "obj" };
+}
+
+bool ObjImporter::parseFile(std::ifstream& file, Mesh* mesh)
 {
 	std::string line;
 
@@ -91,7 +96,7 @@ bool ObjParser::parseFile(std::ifstream& file, Mesh* mesh)
 	return true;
 }
 
-void ObjParser::readLine(std::ifstream& file, std::string& out)
+void ObjImporter::readLine(std::ifstream& file, std::string& out)
 {
 	out.clear();
 
@@ -122,7 +127,7 @@ void ObjParser::readLine(std::ifstream& file, std::string& out)
 }
 
 // Removes spaces and tabs from the start and end of parameter line and trims consecutive spaces and tabs.
-void ObjParser::trimLine(std::string& line)
+void ObjImporter::trimLine(std::string& line)
 {
 	// Trim start and end
 	std::size_t start = line.find_first_not_of(" \t");
@@ -149,7 +154,7 @@ void ObjParser::trimLine(std::string& line)
 }
 
 // Returns a vector of substrings in the line using space as the separator.
-std::vector<std::string> ObjParser::splitLine(const std::string& line)
+std::vector<std::string> ObjImporter::splitLine(const std::string& line)
 {
 	std::vector<std::string> fields;
 
@@ -169,7 +174,7 @@ std::vector<std::string> ObjParser::splitLine(const std::string& line)
 	return fields;
 }
 
-bool ObjParser::parseLine(const std::string& line, Mesh* mesh)
+bool ObjImporter::parseLine(const std::string& line, Mesh* mesh)
 {
 	std::vector<std::string> fields = splitLine(line);
 

@@ -16,7 +16,7 @@ public:
 	
 	void update();
 	void clear();
-	void addObject(std::shared_ptr<Object> object);
+	bool addObject(std::shared_ptr<Object> object);
 	//void removeObject(Object* object);
 	std::vector<std::shared_ptr<Object>> getObjects() const;
 	//std::vector<Object*>::const_iterator findObject(Object* object) const;

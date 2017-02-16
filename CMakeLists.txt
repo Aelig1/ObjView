@@ -14,8 +14,34 @@ include_directories(
 	thirdparty/glm-0.9.8.4/
 )
 
-set(ObjView_HEADERS src/window.h src/engine.h src/renderer.h src/scene.h src/camera.h src/object.h src/objparser.h src/objectfactory.h src/transform.h src/mesh.h src/shaders.h)
-set(ObjView_SOURCES src/main.cpp src/window.cpp src/engine.cpp src/renderer.cpp src/scene.cpp src/camera.cpp src/object.cpp src/objparser.cpp src/objectfactory.cpp src/transform.cpp)
+set(
+	ObjView_HEADERS
+	src/camera.h
+	src/engine.h
+	src/iimporter.h
+	src/mesh.h
+	src/object.h
+	src/objectfactory.h
+	src/objimporter.h
+	src/renderer.h
+	src/scene.h
+	src/shaders.h
+	src/transform.h
+	src/window.h
+)
+set(
+	ObjView_SOURCES
+	src/camera.cpp
+	src/engine.cpp
+	src/main.cpp
+	src/object.cpp
+	src/objectfactory.cpp
+	src/objimporter.cpp
+	src/renderer.cpp
+	src/scene.cpp
+	src/transform.cpp
+	src/window.cpp
+)
 
 # c++11
 if (CMAKE_VERSION VERSION_LESS "3.1")

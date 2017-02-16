@@ -1,25 +1,17 @@
-#ifndef OBJPARSER_H
-#define OBJPARSER_H
+#ifndef OBJIMPORTER_H
+#define OBJIMPORTER_H
 
-#include "mesh.h"
-#include <vector>
-#include <memory>
+#include "iimporter.h"
 #include <fstream>
 
 namespace ObjView
 {
 
-class ObjParser
+class ObjImporter: public IImporter
 {
-	enum ParseState {
-		WaitForElement,
-		WaitForValue,
-		WaitForEndLine,
-		ReadingElement,
-	};
-	
-public:	
-	std::shared_ptr<Mesh> loadObj(const char* path);
+public:
+	std::shared_ptr<Mesh> import(const char* filepath);
+	std::vector<const char*> getSupportedFileExtensions() const;
 	
 private:
 	bool parseFile(std::ifstream& file, Mesh* mesh);
@@ -27,11 +19,9 @@ private:
 	void trimLine(std::string& line);
 	std::vector<std::string> splitLine(const std::string& line);
 	bool parseLine(const std::string& line, Mesh* mesh);
-
-	ParseState m_state;
 	
 };
 
 }
 
-#endif // OBJPARSER_H
+#endif // OBJIMPORTER_H

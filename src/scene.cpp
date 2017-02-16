@@ -24,9 +24,16 @@ void Scene::clear()
 	m_objects.clear();
 }
 
-void Scene::addObject(std::shared_ptr<Object> object)
+// Adds Object to scene. Returns true if Object was added, otherwise false.
+bool Scene::addObject(std::shared_ptr<Object> object)
 {
+	if (object == nullptr)
+	{
+		return false;
+	}
+
 	m_objects.push_back(std::move(object));
+	return true;
 }
 /*
 void Scene::removeObject(Object* object)
